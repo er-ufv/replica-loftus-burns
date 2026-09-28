@@ -17,7 +17,7 @@ window.CONFIG = {
      Si se deja vacía, el experimento funciona en "modo local":
      guarda las respuestas solo en este navegador (útil para probar).
      ------------------------------------------------------------------ */
-  ENDPOINT: "",
+  ENDPOINT: "https://script.google.com/macros/s/AKfycbzXzxTsR5_-t6hAIxzocVTmJLIkzQE0vJCC1oPIqJdZr4oGFVLueIDKIBfEVY2YcUD0mw/exec",
 
   /* Identificador de la aplicación de datos: cámbialo cada curso o grupo
      (p. ej. "2026-G1") para separar las respuestas en la hoja. */
