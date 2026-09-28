@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Resultados · Réplica Loftus y Burns (1982)</title>
+<link rel="icon" href="img/logo-esic-azul.png">
+<link rel="stylesheet" href="css/estilos.css">
+<style>
+  main{max-width:1180px}
+  .controles{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:10px}
+  .controles label{display:flex;flex-direction:column;font-size:14px;color:var(--texto2);gap:4px}
+  .controles input[type=text],.controles input[type=password]{font-family:var(--cuerpo);font-size:16px;padding:9px 10px;border:1px solid var(--borde);border-radius:8px;width:170px}
+  .controles button{padding:9px 16px;font-size:15px}
+  .filtros{display:flex;flex-wrap:wrap;gap:18px;font-size:15px;color:var(--texto2);margin:6px 0 20px}
+  .filtros label{display:flex;gap:6px;align-items:center}
+  .filtros input{accent-color:var(--azul);width:17px;height:17px}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+  .tile{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:14px 18px}
+  .tile .v{font-family:var(--titulo);font-size:46px;line-height:1;color:var(--marino)}
+  .tile .e{font-size:14px;color:var(--texto2)}
+  .rejilla{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  .panel{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:18px 20px;position:relative}
+  .panel h2{font-size:24px;margin-bottom:2px}
+  .panel .sub{font-size:14px;color:var(--texto2);margin-bottom:10px}
+  .leyenda{display:flex;gap:16px;font-size:14px;color:var(--texto2);margin-bottom:6px}
+  .leyenda span{display:flex;align-items:center;gap:6px}
+  .leyenda i{width:12px;height:12px;border-radius:3px;display:inline-block}
+  svg{width:100%;height:auto;display:block;font-family:var(--cuerpo)}
+  svg text{fill:#43506B;font-size:12px}
+  .tabla{width:100%;border-collapse:collapse;font-size:15px}
+  .tabla th,.tabla td{padding:7px 8px;border-bottom:1px solid var(--borde);text-align:right}
+  .tabla th:first-child,.tabla td:first-child{text-align:left}
+  .tabla th{color:var(--texto2);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.3px}
+  .interpreta{background:#F3F6FE;border-radius:8px;padding:12px 14px;font-size:15px;margin-top:12px}
+  .sig{color:var(--ok);font-weight:700}.nosig{color:var(--texto2);font-weight:700}
+  #tip{position:fixed;pointer-events:none;background:var(--marino);color:#fff;font-size:13px;padding:7px 10px;border-radius:6px;display:none;z-index:99;max-width:260px}
+  details{margin-top:10px}summary{cursor:pointer;color:var(--azul);font-weight:600}
+  .scroll{overflow:auto;max-height:420px;margin-top:10px}
+  .scroll table{font-size:12px;white-space:nowrap}
+  .estado{font-size:14px;color:var(--texto2);margin-left:auto}
+  @media (max-width:860px){.rejilla{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <img src="img/logo-esic-blanco.png" alt="ESIC University">
+  <div class="sep"></div>
+  <div class="asig"><span id="asig"></span><small id="tema"></small></div>
+</header>
+<div class="franja"></div>
+
+<main>
+  <h1>Resultados: ¿un choque emocional altera el recuerdo de lo inmediatamente anterior?</h1>
+  <p class="nota">Réplica didáctica de Loftus y Burns (1982). VI: tipo de final (experimental = impactante; control = neutro).
+    VD: aciertos en el cuestionario de memoria sobre la parte común de la secuencia.</p>
+
+  <div class="controles">
+    <label>Cohorte<input type="text" id="cohorte"></label>
+    <label>Clave de resultados<input type="password" id="clave" autocomplete="off"></label>
+    <button id="btn-cargar">Cargar datos</button>
+    <button id="btn-demo" class="secundario">Datos simulados</button>
+    <button id="btn-local" class="secundario">Datos de este navegador</button>
+    <button id="btn-csv" class="secundario">Descargar CSV</button>
+    <label style="flex-direction:row;align-items:center;gap:6px"><input type="checkbox" id="auto"> Actualizar cada 15 s</label>
+    <span class="estado" id="estado">Sin datos cargados.</span>
+  </div>
+  <div class="filtros">
+    <strong>Excluir:</strong>
+    <label><input type="checkbox" id="f-conocia" checked> quienes ya conocían el estudio</label>
+    <label><input type="checkbox" id="f-condiciones" checked> quienes no vieron bien las imágenes</label>
+    <label><input type="checkbox" id="f-pestana" checked> quienes cambiaron de pestaña durante la secuencia</label>
+  </div>
+
+  <div class="tiles">
+    <div class="tile"><div class="v" id="t-n">–</div><div class="e">participantes analizados</div></div>
+    <div class="tile"><div class="v" id="t-ne">–</div><div class="e">grupo experimental</div></div>
+    <div class="tile"><div class="v" id="t-nc">–</div><div class="e">grupo control</div></div>
+    <div class="tile"><div class="v" id="t-exc">–</div><div class="e">excluidos por los filtros</div></div>
+  </div>
+
+  <div class="rejilla">
+    <section class="panel">
+      <h2>Distribución de aciertos</h2>
+      <div class="sub" id="sub-hist">Ítems de relleno válidos (información igual de visible en ambos grupos)</div>
+      <div class="leyenda"><span><i style="background:#FF9606"></i>Experimental</span><span><i style="background:#0047E8"></i>Control</span></div>
+      <div id="g-hist"></div>
+    </section>
+    <section class="panel">
+      <h2>Comparación de grupos</h2>
+      <div class="sub">Cada punto es un participante · caja = cuartiles · línea = mediana · rombo = media</div>
+      <div id="g-caja"></div>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-bottom:18px">
+    <h2>Diferencia de medias de aciertos</h2>
+    <table class="tabla" id="tab-desc"></table>
+    <table class="tabla" id="tab-pruebas" style="margin-top:14px"></table>
+    <div class="interpreta" id="interp"></div>
+  </section>
+
+  <div class="rejilla">
+    <section class="panel">
+      <h2>Ítem crítico: el número de la camiseta</h2>
+      <div class="sub">% de aciertos. Aparecía solo en la primera escena, justo antes del momento crítico.</div>
+      <div class="leyenda"><span><i style="background:#FF9606"></i>Experimental</span><span><i style="background:#0047E8"></i>Control</span></div>
+      <div id="g-critico"></div>
+      <table class="tabla" id="tab-critico" style="margin-top:8px"></table>
+      <p class="nota" style="margin-top:10px">Original (Exp. 1, recuerdo): 4,3 % violento vs. 27,9 % no violento.
+        Exp. 2 (reconocimiento, azar = 25 %): 28 % vs. 55 %.</p>
+    </section>
+    <section class="panel">
+      <h2>Control de la manipulación</h2>
+      <div class="sub">«¿Hasta qué punto te ha resultado inquietante?» (1-5). Si la VI funcionó, el experimental debe puntuar más alto.</div>
+      <div class="leyenda"><span><i style="background:#FF9606"></i>Experimental</span><span><i style="background:#0047E8"></i>Control</span></div>
+      <div id="g-malestar"></div>
+      <div class="interpreta" id="interp-malestar"></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Aciertos por ítem</h2>
+    <div class="sub">% de aciertos en cada pregunta y seguridad media (1-5)</div>
+    <table class="tabla" id="tab-items"></table>
+    <details><summary>Ver tabla de datos individuales</summary><div class="scroll" id="crudos"></div></details>
+  </section>
+</main>
+<div id="tip"></div>
+<p class="pie">ESIC University · <span id="pie-asig"></span></p>
+
+<script src="js/config.js"></script>
+<script src="js/estadistica.js"></script>
+<script src="js/resultados.js"></script>
+</body>
+</html>

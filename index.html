@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Estudio sobre percepción de escenas · ESIC University</title>
+<link rel="icon" href="img/logo-esic-azul.png">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<header class="cabecera">
+  <img src="img/logo-esic-blanco.png" alt="ESIC University">
+  <div class="sep"></div>
+  <div class="asig"><span id="asig"></span><small id="tema"></small></div>
+</header>
+<div class="franja"></div>
+
+<main id="app">
+
+  <!-- 1. CONSENTIMIENTO INFORMADO -->
+  <section id="p-consentimiento" class="tarjeta">
+    <h1>Estudio sobre percepción de escenas visuales</h1>
+    <p>Te invitamos a participar en una breve actividad de la asignatura. Su objetivo es estudiar
+      <strong>cómo percibimos y procesamos escenas visuales breves</strong> de la vida cotidiana.</p>
+    <h2>¿En qué consiste?</h2>
+    <ul>
+      <li>Verás una breve secuencia de imágenes (menos de un minuto), realizarás una sencilla tarea de atención y responderás a unas preguntas.</li>
+      <li>Dura unos <strong>8-10 minutos</strong>.</li>
+    </ul>
+    <h2>Tus derechos</h2>
+    <ul>
+      <li>La participación es <strong>voluntaria</strong>: no participar no tiene ninguna consecuencia en la evaluación de la asignatura.</li>
+      <li>Puedes <strong>abandonar en cualquier momento</strong> cerrando la ventana, sin dar explicaciones.</li>
+      <li>Las respuestas son <strong>anónimas</strong>: no se recoge tu nombre, correo ni ningún dato identificativo.</li>
+      <li>Los datos se usarán solo con fines docentes, de forma agregada, y se comentarán en clase.</li>
+      <li>Al terminar la actividad, el profesor explicará en clase el objetivo completo del estudio.</li>
+    </ul>
+    <p class="nota">Si en algún momento te sientes incómodo/a, puedes detener la actividad y hablar con el profesor.</p>
+
+    <label class="check"><input type="checkbox" id="chk-edad">
+      <span>Declaro que soy mayor de edad y que he leído y comprendido esta información.</span></label>
+
+    <div class="botones">
+      <button id="btn-acepto" disabled>Sí, acepto participar</button>
+      <button id="btn-rechazo" class="secundario">No deseo participar</button>
+    </div>
+  </section>
+
+  <!-- 1b. NO ACEPTA -->
+  <section id="p-rechazo" class="tarjeta oculto">
+    <h1>Gracias por tu tiempo</h1>
+    <p>Has decidido no participar. No se ha guardado ningún dato. Ya puedes cerrar esta ventana.</p>
+  </section>
+
+  <!-- 2. INSTRUCCIONES -->
+  <section id="p-instrucciones" class="tarjeta oculto">
+    <h1>Instrucciones</h1>
+    <ul>
+      <li>Busca un <strong>entorno tranquilo</strong>, sin ruidos ni interrupciones. Silencia el móvil y las notificaciones.</li>
+      <li>Usa preferiblemente un <strong>ordenador o tableta</strong> y sube el brillo de la pantalla.</li>
+      <li>Las imágenes se mostrarán a <strong>pantalla completa</strong>, durante unos pocos segundos cada una, y
+        <strong>avanzarán solas</strong>. No podrás pausarlas ni volver atrás.</li>
+      <li>Mira las imágenes con atención, como si fueras un observador de la escena.</li>
+      <li>No cambies de pestaña ni de ventana durante la actividad.</li>
+    </ul>
+    <p class="nota" id="precarga">Cargando imágenes…</p>
+    <div class="botones"><button id="btn-empezar" disabled>Estoy listo/a: empezar</button></div>
+  </section>
+
+  <!-- 3. TAREA DISTRACTORA -->
+  <section id="p-distractora" class="tarjeta oculto">
+    <h2>Tarea de atención</h2>
+    <p>Pulsa el botón del <strong>color de la tinta</strong> en que está escrita la palabra (no lo que dice la palabra).
+      Intenta ser rápido/a y preciso/a. Dura un minuto.</p>
+    <div class="stroop-palabra" id="stroop-palabra" aria-live="polite"></div>
+    <div class="stroop-botones" id="stroop-botones"></div>
+    <div class="barra"><div id="stroop-barra"></div></div>
+  </section>
+
+  <!-- 4. CUESTIONARIO -->
+  <section id="p-cuestionario" class="tarjeta oculto">
+    <h2>Preguntas sobre las imágenes</h2>
+    <p class="nota">Responde a todas las preguntas. Si no estás seguro/a, elige la respuesta que te parezca más probable
+      e indica tu grado de seguridad (1 = estoy adivinando, 5 = muy seguro/a).</p>
+    <form id="form-preguntas" novalidate></form>
+    <div class="botones"><button id="btn-continuar-final">Continuar</button></div>
+  </section>
+
+  <!-- 5. PREGUNTAS FINALES -->
+  <section id="p-finales" class="tarjeta oculto">
+    <h2>Para terminar</h2>
+    <form id="form-finales" novalidate></form>
+    <div class="botones"><button id="btn-enviar">Enviar respuestas</button></div>
+  </section>
+
+  <!-- 6. FIN -->
+  <section id="p-fin" class="tarjeta oculto">
+    <h1>¡Muchas gracias por participar!</h1>
+    <p id="estado-envio" class="nota">Enviando respuestas…</p>
+    <p>Por favor, <strong>no comentes con tus compañeros</strong> las imágenes ni las preguntas hasta que el profesor lo indique:
+      podría afectar a sus respuestas.</p>
+    <p>En clase explicaremos el objetivo completo del estudio y analizaremos juntos los resultados.</p>
+    <p class="nota">Código anónimo de participación: <strong id="codigo"></strong></p>
+  </section>
+
+  <section id="p-repetido" class="tarjeta oculto">
+    <h1>Actividad ya realizada</h1>
+    <p>Desde este navegador ya se ha completado (o iniciado) la actividad. Para que los resultados sean válidos,
+      cada persona debe participar una sola vez. Gracias.</p>
+  </section>
+</main>
+
+<div id="visor" aria-hidden="true"></div>
+
+<p class="pie">ESIC University · <span id="pie-asig"></span> · Actividad docente</p>
+
+<script src="js/config.js"></script>
+<script src="js/experimento.js"></script>
+</body>
+</html>
